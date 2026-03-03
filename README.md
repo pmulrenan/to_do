@@ -19,7 +19,7 @@ This project focuses on:
 
 The app is deployed using **Vercel**:
 
-👉 https://to-do-two-flax.vercel.app
+👉 to-do-two-flax.vercel.app
 
 Any updates pushed to the connected GitHub repository automatically trigger a new deployment on Vercel.
 
