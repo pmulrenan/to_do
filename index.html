@@ -3,125 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>To-Do List</title>
-
-  <!-- Modern font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>To-Do</title>
 
   <style>
     :root{
-      --bg0:#070A12;
-      --bg1:#0B1022;
-      --card: rgba(255,255,255,.08);
-      --card2: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.14);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.62);
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --bg: #f5f5f7;
+      --card: rgba(255,255,255,.78);
+      --border: rgba(0,0,0,.08);
+      --text: #1d1d1f;
+      --muted: rgba(29,29,31,.62);
 
-      --a: #7C3AED; /* violet */
-      --b: #22D3EE; /* cyan  */
-      --good:#34D399; /* green */
-      --bad:#FB7185;  /* rose  */
+      --blue: #0071e3;
+      --green: #34c759;
+      --red: #ff3b30;
 
-      --r: 20px;
+      --r: 18px;
+      --shadow: 0 18px 40px rgba(0,0,0,.08);
     }
 
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
     html, body { height: 100%; }
+
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1000px 700px at 10% 10%, rgba(124,58,237,.35), transparent 55%),
-        radial-gradient(900px 600px at 90% 20%, rgba(34,211,238,.25), transparent 60%),
-        radial-gradient(900px 700px at 50% 100%, rgba(16,185,129,.14), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+        radial-gradient(900px 600px at 15% 10%, rgba(0,113,227,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(52,199,89,.08), transparent 60%),
+        var(--bg);
       display:flex;
       align-items:center;
       justify-content:center;
       padding: 28px 14px;
     }
 
-    .wrap{
-      width:min(720px, 100%);
-      display:grid;
-      gap: 14px;
-    }
-
     .card{
+      width: min(560px, 100%);
       border-radius: var(--r);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      background: var(--card);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      overflow:hidden;
+      overflow: hidden;
     }
 
     header{
-      padding: 22px 22px 16px;
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
       display:flex;
-      align-items:flex-start;
+      align-items:flex-end;
       justify-content:space-between;
       gap: 12px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      background: linear-gradient(90deg, rgba(124,58,237,.16), rgba(34,211,238,.10), transparent 70%);
-    }
-
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
     }
 
     h1{
-      font-size: 18px;
-      line-height: 1.1;
       margin:0;
+      font-size: 18px;
       letter-spacing: -0.02em;
       font-weight: 700;
+      line-height: 1.2;
     }
 
-    .subtitle{
-      margin:0;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.20);
+    .meta{
       font-size: 12px;
       color: var(--muted);
       user-select:none;
       white-space:nowrap;
     }
 
-    .dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background: linear-gradient(180deg, var(--b), var(--a));
-      box-shadow: 0 0 0 3px rgba(34,211,238,.12);
-    }
-
     .main{
-      padding: 18px 22px 22px;
+      padding: 14px 18px 18px;
       display:grid;
-      gap: 14px;
+      gap: 12px;
     }
 
-    /* Input row */
-    .row{
+    /* Input */
+    .inputRow{
       display:flex;
       gap: 10px;
       align-items:center;
@@ -129,92 +88,73 @@
 
     .field{
       flex:1;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.92);
+      padding: 10px 12px;
       display:flex;
       align-items:center;
       gap: 10px;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      transition: border-color .2s ease, transform .2s ease;
+      transition: box-shadow .15s ease, border-color .15s ease;
     }
 
     .field:focus-within{
-      border-color: rgba(34,211,238,.45);
-      box-shadow: 0 0 0 4px rgba(34,211,238,.10);
-      transform: translateY(-1px);
+      border-color: rgba(0,113,227,.35);
+      box-shadow: 0 0 0 4px rgba(0,113,227,.10);
     }
 
-    .field svg{
-      width:18px;
-      height:18px;
-      opacity:.75;
-      flex:none;
-    }
-
-    input[type="text"]{
+    input{
       width:100%;
       border:0;
       outline:0;
       background: transparent;
-      color: var(--text);
       font-size: 14px;
-      caret-color: var(--b);
+      color: var(--text);
     }
 
-    input::placeholder{ color: rgba(255,255,255,.45); }
+    input::placeholder{ color: rgba(29,29,31,.45); }
 
-    .btn{
-      flex:none;
-      border:0;
-      cursor:pointer;
-      padding: 12px 14px;
+    .addBtn{
+      border: 0;
+      background: var(--blue);
+      color: white;
+      padding: 10px 14px;
       border-radius: 14px;
-      color: rgba(255,255,255,.94);
       font-weight: 600;
       font-size: 14px;
-      letter-spacing: -0.01em;
-      background: linear-gradient(135deg, rgba(34,211,238,.95), rgba(124,58,237,.95));
-      box-shadow: 0 14px 30px rgba(124,58,237,.18);
-      transition: transform .15s ease, filter .15s ease;
+      cursor:pointer;
+      transition: transform .12s ease, filter .12s ease;
       user-select:none;
     }
 
-    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-    .btn:active{ transform: translateY(0px); filter: brightness(.98); }
-    .btn:disabled{
-      opacity:.45;
-      cursor:not-allowed;
-      transform:none;
-      filter:none;
-    }
+    .addBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .addBtn:active{ transform: translateY(0px); filter: brightness(.98); }
 
     /* List */
     ul{
-      list-style:none;
-      padding:0;
-      margin:0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display:grid;
-      gap: 10px;
+      gap: 8px;
     }
 
     .item{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 14px;
+      padding: 10px 10px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
-      transition: transform .15s ease, border-color .2s ease, background .2s ease;
-      will-change: transform;
+      transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
     }
 
     .item:hover{
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,.18);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      box-shadow: 0 10px 20px rgba(0,0,0,.06);
+      border-color: rgba(0,0,0,.08);
     }
 
     .left{
@@ -227,18 +167,26 @@
     .check{
       width: 22px;
       height: 22px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.20);
-      background: rgba(0,0,0,.18);
+      border-radius: 999px;
+      border: 1.5px solid rgba(0,0,0,.18);
+      background: transparent;
       display:grid;
       place-items:center;
-      flex:none;
       cursor:pointer;
-      transition: background .15s ease, border-color .15s ease, transform .1s ease;
+      flex:none;
+      transition: transform .12s ease, border-color .15s ease, background .15s ease;
     }
 
     .check:hover{ transform: scale(1.02); }
-    .check svg{ width:14px; height:14px; opacity:0; transform: scale(.7); transition: .15s ease; }
+
+    .check svg{
+      width: 14px;
+      height: 14px;
+      opacity: 0;
+      transform: scale(.7);
+      transition: .12s ease;
+      color: white;
+    }
 
     .text{
       font-size: 14px;
@@ -246,54 +194,39 @@
       overflow:hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      color: rgba(255,255,255,.92);
     }
 
     .actions{
       display:flex;
       align-items:center;
-      gap: 8px;
+      gap: 6px;
       flex:none;
     }
 
     .iconBtn{
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: rgba(255,255,255,.85);
+      border: 0;
+      background: transparent;
+      padding: 8px;
       border-radius: 12px;
-      padding: 10px;
       cursor:pointer;
-      transition: transform .15s ease, border-color .2s ease, background .2s ease;
-      display:grid;
-      place-items:center;
+      color: rgba(29,29,31,.55);
+      transition: background .15s ease, color .15s ease, transform .12s ease;
     }
 
     .iconBtn:hover{
+      background: rgba(0,0,0,.05);
+      color: rgba(29,29,31,.80);
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,.22);
-      background: rgba(0,0,0,.24);
     }
 
     .iconBtn:active{ transform: translateY(0px); }
 
-    .iconBtn svg{ width:16px; height:16px; opacity:.9; }
+    .iconBtn svg{ width: 16px; height: 16px; }
 
-    /* Completed state */
-    .item.completed{
-      border-color: rgba(52,211,153,.35);
-      background: linear-gradient(180deg, rgba(52,211,153,.10), rgba(255,255,255,.04));
-    }
-
-    .item.completed .text{
-      color: rgba(255,255,255,.55);
-      text-decoration: line-through;
-      text-decoration-thickness: 2px;
-      text-decoration-color: rgba(52,211,153,.55);
-    }
-
+    /* Completed */
     .item.completed .check{
-      border-color: rgba(52,211,153,.55);
-      background: rgba(52,211,153,.16);
+      background: var(--green);
+      border-color: rgba(52,199,89,.65);
     }
 
     .item.completed .check svg{
@@ -301,84 +234,80 @@
       transform: scale(1);
     }
 
-    /* Footer */
+    .item.completed .text{
+      color: rgba(29,29,31,.45);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(29,29,31,.22);
+    }
+
+    /* Empty / Footer */
+    .empty{
+      padding: 14px 12px;
+      border-radius: 14px;
+      border: 1px dashed rgba(0,0,0,.12);
+      background: rgba(255,255,255,.70);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .footer{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap: 10px;
-      padding-top: 6px;
-      color: var(--muted);
+      padding-top: 2px;
       font-size: 12px;
+      color: var(--muted);
     }
 
     .linkBtn{
-      border: 0;
+      border:0;
       background: transparent;
-      color: rgba(255,255,255,.74);
       cursor:pointer;
+      color: rgba(0,113,227,.95);
       padding: 6px 8px;
-      border-radius: 10px;
-      transition: background .15s ease, color .15s ease;
-    }
-    .linkBtn:hover{
-      background: rgba(255,255,255,.08);
-      color: rgba(255,255,255,.88);
+      border-radius: 12px;
+      font-weight: 600;
+      transition: background .15s ease;
     }
 
-    /* Empty state */
-    .empty{
-      border-radius: 16px;
-      border: 1px dashed rgba(255,255,255,.18);
-      background: rgba(0,0,0,.12);
-      padding: 16px;
-      color: rgba(255,255,255,.62);
-      font-size: 13px;
-    }
+    .linkBtn:hover{ background: rgba(0,113,227,.10); }
+    .linkBtn:disabled{ opacity:.45; cursor:not-allowed; }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; animation:none !important; }
+      *{ transition:none !important; }
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="card">
-      <header>
-        <div class="title">
-          <h1>To-Do</h1>
-          <p class="subtitle">Fast, clean, and satisfying. Press <b>Enter</b> to add.</p>
-        </div>
-        <div class="badge" id="countBadge" aria-live="polite">
-          <span class="dot" aria-hidden="true"></span>
-          <span><span id="remainingCount">0</span> remaining</span>
-        </div>
-      </header>
+  <div class="card">
+    <header>
+      <div>
+        <h1>To-Do</h1>
+        <div class="meta">Press Enter to add • Click the circle to complete</div>
+      </div>
+      <div class="meta"><span id="remainingCount">0</span> remaining</div>
+    </header>
 
-      <div class="main">
-        <div class="row">
-          <div class="field">
-            <!-- plus icon -->
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <input id="taskInput" type="text" placeholder="Add a task…" autocomplete="off" />
-          </div>
-          <button class="btn" id="addBtn" type="button">Add</button>
+    <div class="main">
+      <div class="inputRow">
+        <div class="field">
+          <input id="taskInput" type="text" placeholder="Add a task…" autocomplete="off" />
         </div>
+        <button class="addBtn" id="addBtn" type="button">Add</button>
+      </div>
 
-        <div id="emptyState" class="empty" hidden>
-          No tasks yet. Add your first one above ✨
-        </div>
+      <div id="emptyState" class="empty" hidden>
+        No tasks yet.
+      </div>
 
-        <ul id="taskList"></ul>
+      <ul id="taskList"></ul>
 
-        <div class="footer">
-          <span id="totalCount">0 tasks</span>
-          <button class="linkBtn" id="clearCompletedBtn" type="button">Clear completed</button>
-        </div>
+      <div class="footer">
+        <span id="totalCount">0 tasks</span>
+        <button class="linkBtn" id="clearCompletedBtn" type="button">Clear completed</button>
       </div>
     </div>
   </div>
@@ -393,6 +322,15 @@
     const emptyStateEl = document.getElementById('emptyState');
     const clearCompletedBtn = document.getElementById('clearCompletedBtn');
 
+    function escapeHtml(str) {
+      return str
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
     function updateCounts() {
       const items = Array.from(taskList.querySelectorAll('.item'));
       const completed = items.filter(i => i.classList.contains('completed')).length;
@@ -403,10 +341,7 @@
       totalCountEl.textContent = `${total} task${total === 1 ? '' : 's'}`;
       emptyStateEl.hidden = total !== 0;
 
-      // Disable clear button when nothing to clear
       clearCompletedBtn.disabled = completed === 0;
-      clearCompletedBtn.style.opacity = completed === 0 ? 0.5 : 1;
-      clearCompletedBtn.style.cursor = completed === 0 ? 'not-allowed' : 'pointer';
     }
 
     function createItem(text) {
@@ -423,7 +358,7 @@
           <span class="text" title="${escapeHtml(text)}">${escapeHtml(text)}</span>
         </div>
         <div class="actions">
-          <button class="iconBtn deleteBtn" type="button" aria-label="Delete task">
+          <button class="iconBtn deleteBtn" type="button" aria-label="Delete task" title="Delete">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
@@ -431,13 +366,11 @@
         </div>
       `;
 
-      // Toggle complete
       li.querySelector('.check').addEventListener('click', () => {
         li.classList.toggle('completed');
         updateCounts();
       });
 
-      // Delete
       li.querySelector('.deleteBtn').addEventListener('click', () => {
         li.remove();
         updateCounts();
@@ -456,30 +389,17 @@
       updateCounts();
     }
 
-    function escapeHtml(str) {
-      return str
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
-
-    // Add via button
     addBtn.addEventListener('click', addTask);
 
-    // Add via Enter
     taskInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') addTask();
     });
 
-    // Clear completed
     clearCompletedBtn.addEventListener('click', () => {
       taskList.querySelectorAll('.item.completed').forEach(el => el.remove());
       updateCounts();
     });
 
-    // Initial
     updateCounts();
     taskInput.focus();
   </script>
